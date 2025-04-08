@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Page</title>
+    <link rel="stylesheet" href="static/css/style.css">
+</head>
+<body>
+    <header class="chat-header">
+        <h1>Welcome to the Chatbot</h1>
+        <p>Logged in as: <strong>{{ user_email }}</strong></p>
+        <a href="{{ url_for('main.logout') }}" class="logout-btn">Logout</a>
+    </header>
+    <main>
+        <div class="chat-container">
+            <div id="clock" style="text-align: center; margin-bottom: 10px; font-size: 1.2em; color: #555;">
+                <!-- Clock will be updated here -->
+            </div>
+            <p style="text-align: center; margin: 20px 0;">
+                Welcome to our chatbot! Use the chat window in the bottom right corner to start a conversation.
+            </p>
+        </div>
+    </main>
+    
+    <!-- Clock Update Script -->
+    <script>
+        function updateTime() {
+            var now = new Date();
+            var hours = now.getHours().toString().padStart(2, '0');
+            var minutes = now.getMinutes().toString().padStart(2, '0');
+            var seconds = now.getSeconds().toString().padStart(2, '0');
+            var timeString = hours + ':' + minutes + ':' + seconds;
+            document.getElementById('clock').textContent = timeString;
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
+    </script>
+    
+    <!-- Dialogflow Messenger -->
+    <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+    <df-messenger
+      intent="WELCOME"
+      chat-title="UniBot"
+      agent-id="369238a8-a34e-4688-a3d5-655009333d0d"
+      language-code="en"
+    ></df-messenger>
+</body>
+</html>

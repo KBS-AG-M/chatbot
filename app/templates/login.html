@@ -1,18 +1,27 @@
 <!-- templates/login.html -->
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Login with Google</title>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Smart FAQ Chatbot</title>
+    <link rel="stylesheet" href="static/css/style.css">
 </head>
 <body>
-    <h2>Login with Google</h2>
-    <button onclick="signInWithGoogle()">Sign in</button>
+    <div class="home-container">
+        <div class="home-header">
+            <h1>Welcome to Smart FAQ Chatbot</h1>
+            <p>Your personal assistant for university FAQs</p>
+        </div>
+        <div class="home-content">
+            <button class="login-btn" onclick="signInWithGoogle()">Login with Google</button>
+        </div>
+    </div>
 
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
     <script>
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
         const firebaseConfig = {
             apiKey: "AIzaSyAXKkt6SqMkWHBpp81c2jeemkzlvvNzGR0",
             authDomain: "chatbot-664f6.firebaseapp.com",
@@ -23,32 +32,25 @@
             measurementId: "G-Y8J9KPJWTX"
         };
 
-        // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
 
         function signInWithGoogle() {
             const provider = new firebase.auth.GoogleAuthProvider();
             auth.signInWithPopup(provider)
-                .then(result => {
-                    return result.user.getIdToken();
-                })
+                .then(result => result.user.getIdToken())
                 .then(token => {
-                    // ✅ Send the ID token to your Flask backend
                     fetch('/verify-token', {
                         method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
+                        headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ idToken: token })
                     })
                     .then(res => res.json())
                     .then(data => {
                         if (data.success) {
-                            // Redirect to chat or load chat page
                             window.location.href = "/chat";
                         } else {
-                            alert("Token verification failed");
+                            alert("Login failed. Please try again.");
                         }
                     });
                 })
