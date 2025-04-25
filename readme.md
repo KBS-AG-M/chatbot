@@ -37,3 +37,9 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 
 # Install dependencies
 pip install -r requirements.txt
+
+👥 Contributors
+	•	Dennis Mwangi – 665649
+	•	Arsen Ogutu – 666013
+	•	George Kamanu – 667642
+	•	David Gatkek – 666628
